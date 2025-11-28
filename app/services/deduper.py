@@ -8,18 +8,18 @@ Provides functionality for:
 - Human-in-the-loop review flagging
 """
 
+import re
 from dataclasses import dataclass
 from datetime import datetime
-import re
 from typing import Any
 
 from app.config import get_settings
+from app.observability.logging_config import get_logger
 from app.schemas.deduplication import (
     DeduplicationCandidate,
     EntityMatch,
     EntityResolutionResult,
 )
-from app.observability.logging_config import get_logger
 
 settings = get_settings()
 logger = get_logger(__name__)

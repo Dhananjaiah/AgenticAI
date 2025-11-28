@@ -11,8 +11,8 @@ from datetime import datetime
 from typing import Any
 
 from app.config import get_settings
-from app.schemas.claims import LLMContextBundle, LLMSummary
 from app.observability.logging_config import get_logger
+from app.schemas.claims import LLMContextBundle, LLMSummary
 
 settings = get_settings()
 logger = get_logger(__name__)
@@ -276,7 +276,7 @@ Perform a detailed analysis of this claim:
 - Reason: This is a stub response for local development.
 - Claim Amount: ${claim_info.get('claim_amount', 0):,.2f}"""
         else:
-            summary = f"""[STUB MODE] Claim Analysis:
+            summary = """[STUB MODE] Claim Analysis:
 - Claim appears complete based on available documents.
 - No obvious red flags detected in stub mode.
 - Full analysis requires LLM connection."""

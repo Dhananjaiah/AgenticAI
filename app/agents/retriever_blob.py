@@ -46,9 +46,9 @@ class BlobRetrieverAgent:
         """Build Autogen configuration for Blob retriever."""
         return {
             "name": "BlobRetriever",
-            "system_message": """You are a blob storage retrieval agent. Your role is to 
+            "system_message": """You are a blob storage retrieval agent. Your role is to
             fetch claim-related images, scans, and documents from blob storage efficiently.
-            
+
             When asked to retrieve files:
             1. First list available files by metadata
             2. Extract EXIF and timestamp information

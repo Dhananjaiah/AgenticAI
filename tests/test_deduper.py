@@ -70,10 +70,10 @@ def sample_candidates():
 async def test_find_duplicates_by_checksum(deduper, sample_candidates):
     """Test finding duplicates by checksum match."""
     duplicates = await deduper.find_duplicates(sample_candidates)
-    
+
     # Should find at least the checksum duplicate
     assert len(duplicates) > 0
-    
+
     # Find the checksum duplicate
     checksum_dup = next(
         (d for d in duplicates if "checksum" in d.matching_fields),
@@ -87,7 +87,7 @@ async def test_find_duplicates_by_checksum(deduper, sample_candidates):
 async def test_find_duplicates_by_claim_id(deduper, sample_candidates):
     """Test finding candidates with same claim ID."""
     duplicates = await deduper.find_duplicates(sample_candidates)
-    
+
     # Documents with same claim_id should be grouped
     claim_matches = [
         d for d in duplicates
@@ -100,7 +100,7 @@ async def test_find_duplicates_by_claim_id(deduper, sample_candidates):
 async def test_get_recommendation_merge(deduper, sample_candidates):
     """Test merge recommendation for high-similarity pairs."""
     duplicates = await deduper.find_duplicates(sample_candidates)
-    
+
     # Checksum match should get merge recommendation
     checksum_dup = next(
         (d for d in duplicates if d.matching_fields.get("checksum")),
@@ -131,13 +131,13 @@ async def test_resolve_entity(deduper):
         {"id": "ent1", "name": "John Smith", "email": "john@example.com"},
         {"id": "ent2", "name": "John Smith", "email": "jsmith@example.com"},
     ]
-    
+
     result = await deduper.resolve_entity(
         source_id="source1",
         entity_type="customer",
         candidates=candidates,
     )
-    
+
     assert result.source_id == "source1"
     assert result.entity_type == "customer"
 
@@ -150,7 +150,7 @@ async def test_merge_documents(deduper):
         secondary_ids=["doc2", "doc3"],
         merge_strategy="latest",
     )
-    
+
     assert result["canonical_id"] == "doc1"
     assert "doc2" in result["merged_ids"]
     assert "doc3" in result["merged_ids"]
@@ -166,6 +166,6 @@ async def test_flag_for_review(deduper):
         similarity_score=0.75,
         matching_fields={"filename_similarity": 0.8},
     )
-    
+
     assert review_id is not None
     assert len(review_id) > 0

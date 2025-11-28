@@ -10,9 +10,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.db.models import Claim, Customer, Policy, Payment, Document
-from app.db.session import get_db_context
 from app.config import get_settings
+from app.db.models import Claim, Document, Payment, Policy
+from app.db.session import get_db_context
 from app.observability.logging_config import get_logger
 
 settings = get_settings()
@@ -40,9 +40,9 @@ class SQLRetrieverAgent:
         """Build Autogen configuration for SQL retriever."""
         return {
             "name": "SQLRetriever",
-            "system_message": """You are a SQL data retrieval agent. Your role is to 
+            "system_message": """You are a SQL data retrieval agent. Your role is to
             fetch claim-related data from the PostgreSQL database efficiently.
-            
+
             When asked to retrieve data:
             1. Use parameterized queries for security
             2. Apply pagination for large result sets

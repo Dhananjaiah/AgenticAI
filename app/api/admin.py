@@ -8,22 +8,21 @@ Provides endpoints for:
 """
 
 from datetime import datetime
-from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Query, BackgroundTasks
-from sqlalchemy import select, func
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db.models import Document, DuplicateReview, IndexingState, DocumentSourceType
+from app.db.models import Document, DuplicateReview, IndexingState
 from app.db.session import get_db
+from app.observability.logging_config import get_logger
 from app.schemas.common import MessageResponse
 from app.schemas.deduplication import (
+    DuplicateReviewDecision,
     DuplicateReviewItem,
     DuplicateReviewResponse,
-    DuplicateReviewDecision,
 )
 from app.services.indexer import IndexerService
-from app.observability.logging_config import get_logger
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 logger = get_logger(__name__)

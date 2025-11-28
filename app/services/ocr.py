@@ -7,17 +7,16 @@ Provides a unified interface for OCR processing with implementations for:
 """
 
 import io
+import time
 from abc import ABC, abstractmethod
-from datetime import datetime
 from pathlib import Path
 from typing import Any
-import time
 
 from PIL import Image
 
 from app.config import get_settings
-from app.schemas.documents import OCRResult
 from app.observability.logging_config import get_logger
+from app.schemas.documents import OCRResult
 
 settings = get_settings()
 logger = get_logger(__name__)
@@ -128,8 +127,8 @@ class TesseractEngine(OCREngine):
             )
 
         try:
-            from pdf2image import convert_from_bytes
             import pytesseract
+            from pdf2image import convert_from_bytes
 
             # Convert PDF to images
             images = convert_from_bytes(pdf_data)

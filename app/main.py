@@ -8,21 +8,21 @@ This is the entry point for the HTTP API that provides:
 - Health and metrics endpoints
 """
 
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.api import claims_router, policies_router, admin_router, health_router
+from app.api import admin_router, claims_router, health_router, policies_router
 from app.config import get_settings
-from app.db.session import init_db, close_db
+from app.db.session import close_db, init_db
 from app.observability.logging_config import (
+    LoggingMiddleware,
     configure_logging,
     get_logger,
     set_correlation_id,
-    LoggingMiddleware,
 )
 from app.services.cache import CacheService
 
@@ -73,13 +73,13 @@ app = FastAPI(
     title=settings.app_name,
     description="""
     Agentic-AI Insurance Claims Architecture API.
-    
+
     This API provides endpoints for:
     - Retrieving claim data with full canonical bundles
     - Policy and claims management
     - Index management and refresh operations
     - Health checks and metrics
-    
+
     The system uses Microsoft Autogen for agentic orchestration,
     with retriever agents for SQL, SharePoint, and Blob storage.
     """,

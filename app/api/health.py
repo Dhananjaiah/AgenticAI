@@ -6,47 +6,27 @@ Provides endpoints for:
 - GET /metrics - Prometheus-compatible metrics
 """
 
-from datetime import datetime
 import time
+from datetime import datetime
 
 from fastapi import APIRouter, Depends, Response
+from prometheus_client import (
+    CONTENT_TYPE_LATEST,
+    generate_latest,
+)
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
-from prometheus_client import (
-    generate_latest,
-    CONTENT_TYPE_LATEST,
-    Counter,
-    Histogram,
-    Gauge,
-)
 
+from app.config import get_settings
 from app.db.session import get_db
+from app.observability.logging_config import get_logger
+from app.observability.metrics import metrics as metrics_collector
 from app.schemas.common import HealthResponse, MetricsResponse
 from app.services.cache import CacheService
-from app.config import get_settings
-from app.observability.logging_config import get_logger
 
 router = APIRouter(tags=["health"])
 logger = get_logger(__name__)
 settings = get_settings()
-
-# Prometheus metrics
-REQUEST_COUNT = Counter(
-    "http_requests_total",
-    "Total HTTP requests",
-    ["method", "endpoint", "status"],
-)
-REQUEST_LATENCY = Histogram(
-    "http_request_duration_seconds",
-    "HTTP request latency",
-    ["method", "endpoint"],
-)
-CACHE_HIT_RATE = Gauge("cache_hit_rate", "Cache hit rate percentage")
-LLM_CALL_COUNT = Counter("llm_calls_total", "Total LLM API calls", ["model", "status"])
-CLAIMS_PROCESSED = Counter("claims_processed_total", "Total claims processed")
-
-# Track startup time
-_startup_time = time.time()
 
 
 async def get_cache() -> CacheService:
@@ -141,7 +121,7 @@ async def metrics_summary(
     Returns:
         MetricsResponse: Summary of key metrics
     """
-    uptime = time.time() - _startup_time
+    uptime = metrics_collector.get_uptime()
 
     # Get cache hit rate
     cache_stats = await cache.get_stats()

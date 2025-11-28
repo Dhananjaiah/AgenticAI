@@ -11,11 +11,11 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.db.models import Policy, Claim
+from app.db.models import Policy
 from app.db.session import get_db
-from app.schemas.policies import PolicyDetail, PolicyWithClaims
-from app.schemas.claims import ClaimSummary
 from app.observability.logging_config import get_logger
+from app.schemas.claims import ClaimSummary
+from app.schemas.policies import PolicyDetail, PolicyWithClaims
 
 router = APIRouter(prefix="/policies", tags=["policies"])
 logger = get_logger(__name__)

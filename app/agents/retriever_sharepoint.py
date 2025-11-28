@@ -42,9 +42,9 @@ class SharePointRetrieverAgent:
         """Build Autogen configuration for SharePoint retriever."""
         return {
             "name": "SharePointRetriever",
-            "system_message": """You are a SharePoint document retrieval agent. Your role is to 
+            "system_message": """You are a SharePoint document retrieval agent. Your role is to
             fetch claim-related documents from SharePoint efficiently.
-            
+
             When asked to retrieve documents:
             1. First list available documents by metadata
             2. Do not fetch content unless explicitly requested

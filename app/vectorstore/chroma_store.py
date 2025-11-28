@@ -7,9 +7,9 @@ using ChromaDB for local vector storage.
 
 from typing import Any
 
-from app.vectorstore.base import VectorStore, VectorDocument, SearchResult
 from app.config import get_settings
 from app.observability.logging_config import get_logger
+from app.vectorstore.base import SearchResult, VectorDocument, VectorStore
 
 settings = get_settings()
 logger = get_logger(__name__)

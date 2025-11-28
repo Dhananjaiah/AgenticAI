@@ -9,9 +9,9 @@ Provides:
 
 import logging
 import sys
+import uuid
 from contextvars import ContextVar
 from typing import Any
-import uuid
 
 import structlog
 

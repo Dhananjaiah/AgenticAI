@@ -7,15 +7,16 @@ Provides endpoints for:
 """
 
 from datetime import datetime
-from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.db.models import Claim, CanonicalClaimBundle as CanonicalClaimBundleModel
+from app.db.models import CanonicalClaimBundle as CanonicalClaimBundleModel
+from app.db.models import Claim
 from app.db.session import get_db
+from app.observability.logging_config import get_logger
 from app.schemas.claims import (
     CanonicalClaimBundle,
     ClaimDetail,
@@ -28,7 +29,6 @@ from app.schemas.claims import (
 )
 from app.schemas.common import SourceProvenance
 from app.services.orchestrator import ClaimsOrchestrator
-from app.observability.logging_config import get_logger
 
 router = APIRouter(prefix="/claims", tags=["claims"])
 logger = get_logger(__name__)

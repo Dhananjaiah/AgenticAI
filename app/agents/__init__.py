@@ -9,9 +9,9 @@ Contains agents for:
 """
 
 from app.agents.orchestrator import OrchestratorAgent
-from app.agents.retriever_sql import SQLRetrieverAgent
-from app.agents.retriever_sharepoint import SharePointRetrieverAgent
 from app.agents.retriever_blob import BlobRetrieverAgent
+from app.agents.retriever_sharepoint import SharePointRetrieverAgent
+from app.agents.retriever_sql import SQLRetrieverAgent
 
 __all__ = [
     "OrchestratorAgent",

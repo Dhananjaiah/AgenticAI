@@ -36,10 +36,10 @@ class OrchestratorAgent:
         """Build Autogen configuration."""
         config = {
             "name": "ClaimsOrchestrator",
-            "system_message": """You are the central orchestrator for an insurance claims 
+            "system_message": """You are the central orchestrator for an insurance claims
             processing system. Your role is to coordinate data retrieval from multiple sources,
             ensure data quality through deduplication, and provide comprehensive claim bundles.
-            
+
             When asked to process a claim:
             1. First retrieve metadata from all sources
             2. Identify relevant documents and data

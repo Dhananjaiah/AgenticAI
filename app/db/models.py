@@ -64,12 +64,12 @@ class Customer(Base):
     id: Mapped[str] = mapped_column(
         UUID(as_uuid=False), primary_key=True, default=generate_uuid
     )
-    external_id: Mapped[Optional[str]] = mapped_column(String(100), unique=True, index=True)
+    external_id: Mapped[str | None] = mapped_column(String(100), unique=True, index=True)
     first_name: Mapped[str] = mapped_column(String(100), nullable=False)
     last_name: Mapped[str] = mapped_column(String(100), nullable=False)
-    email: Mapped[Optional[str]] = mapped_column(String(255))
-    phone: Mapped[Optional[str]] = mapped_column(String(50))
-    address: Mapped[Optional[str]] = mapped_column(Text)
+    email: Mapped[str | None] = mapped_column(String(255))
+    phone: Mapped[str | None] = mapped_column(String(50))
+    address: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
@@ -100,7 +100,7 @@ class Policy(Base):
     start_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     end_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
-    metadata_json: Mapped[Optional[dict]] = mapped_column(JSON, default=dict)
+    metadata_json: Mapped[dict | None] = mapped_column(JSON, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
@@ -131,13 +131,13 @@ class Claim(Base):
     )
     claim_type: Mapped[str] = mapped_column(String(100), nullable=False)
     claim_amount: Mapped[float] = mapped_column(Float, nullable=False)
-    approved_amount: Mapped[Optional[float]] = mapped_column(Float)
-    description: Mapped[Optional[str]] = mapped_column(Text)
+    approved_amount: Mapped[float | None] = mapped_column(Float)
+    description: Mapped[str | None] = mapped_column(Text)
     incident_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     filed_date: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
-    resolved_date: Mapped[Optional[datetime]] = mapped_column(DateTime)
-    adjuster_notes: Mapped[Optional[str]] = mapped_column(Text)
-    metadata_json: Mapped[Optional[dict]] = mapped_column(JSON, default=dict)
+    resolved_date: Mapped[datetime | None] = mapped_column(DateTime)
+    adjuster_notes: Mapped[str | None] = mapped_column(Text)
+    metadata_json: Mapped[dict | None] = mapped_column(JSON, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
@@ -171,10 +171,10 @@ class ClaimStatusHistory(Base):
     claim_id: Mapped[str] = mapped_column(
         UUID(as_uuid=False), ForeignKey("claims.id"), index=True
     )
-    previous_status: Mapped[Optional[ClaimStatus]] = mapped_column(Enum(ClaimStatus))
+    previous_status: Mapped[ClaimStatus | None] = mapped_column(Enum(ClaimStatus))
     new_status: Mapped[ClaimStatus] = mapped_column(Enum(ClaimStatus), nullable=False)
-    changed_by: Mapped[Optional[str]] = mapped_column(String(100))
-    notes: Mapped[Optional[str]] = mapped_column(Text)
+    changed_by: Mapped[str | None] = mapped_column(String(100))
+    notes: Mapped[str | None] = mapped_column(Text)
     changed_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
     # Relationships
@@ -195,9 +195,9 @@ class Payment(Base):
     payment_type: Mapped[str] = mapped_column(String(50), nullable=False)
     amount: Mapped[float] = mapped_column(Float, nullable=False)
     payment_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    payment_method: Mapped[Optional[str]] = mapped_column(String(50))
-    reference_number: Mapped[Optional[str]] = mapped_column(String(100))
-    notes: Mapped[Optional[str]] = mapped_column(Text)
+    payment_method: Mapped[str | None] = mapped_column(String(50))
+    reference_number: Mapped[str | None] = mapped_column(String(100))
+    notes: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
     # Relationships
@@ -212,10 +212,10 @@ class Document(Base):
     id: Mapped[str] = mapped_column(
         UUID(as_uuid=False), primary_key=True, default=generate_uuid
     )
-    claim_id: Mapped[Optional[str]] = mapped_column(
+    claim_id: Mapped[str | None] = mapped_column(
         UUID(as_uuid=False), ForeignKey("claims.id"), index=True
     )
-    policy_id: Mapped[Optional[str]] = mapped_column(
+    policy_id: Mapped[str | None] = mapped_column(
         UUID(as_uuid=False), ForeignKey("policies.id"), index=True
     )
     source_type: Mapped[DocumentSourceType] = mapped_column(
@@ -224,15 +224,15 @@ class Document(Base):
     source_path: Mapped[str] = mapped_column(Text, nullable=False)
     filename: Mapped[str] = mapped_column(String(255), nullable=False)
     file_type: Mapped[str] = mapped_column(String(50), nullable=False)
-    file_size: Mapped[Optional[int]] = mapped_column(Integer)
-    checksum: Mapped[Optional[str]] = mapped_column(String(64))
-    ocr_text: Mapped[Optional[str]] = mapped_column(Text)
-    ocr_confidence: Mapped[Optional[float]] = mapped_column(Float)
-    extracted_entities: Mapped[Optional[dict]] = mapped_column(JSON, default=dict)
-    tags: Mapped[Optional[list]] = mapped_column(JSON, default=list)
+    file_size: Mapped[int | None] = mapped_column(Integer)
+    checksum: Mapped[str | None] = mapped_column(String(64))
+    ocr_text: Mapped[str | None] = mapped_column(Text)
+    ocr_confidence: Mapped[float | None] = mapped_column(Float)
+    extracted_entities: Mapped[dict | None] = mapped_column(JSON, default=dict)
+    tags: Mapped[list | None] = mapped_column(JSON, default=list)
     is_indexed: Mapped[bool] = mapped_column(Boolean, default=False)
-    indexed_at: Mapped[Optional[datetime]] = mapped_column(DateTime)
-    metadata_json: Mapped[Optional[dict]] = mapped_column(JSON, default=dict)
+    indexed_at: Mapped[datetime | None] = mapped_column(DateTime)
+    metadata_json: Mapped[dict | None] = mapped_column(JSON, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
@@ -261,10 +261,10 @@ class IndexingState(Base):
     source_type: Mapped[DocumentSourceType] = mapped_column(
         Enum(DocumentSourceType), unique=True, nullable=False
     )
-    last_indexed_at: Mapped[Optional[datetime]] = mapped_column(DateTime)
-    last_cdc_marker: Mapped[Optional[str]] = mapped_column(String(255))
+    last_indexed_at: Mapped[datetime | None] = mapped_column(DateTime)
+    last_cdc_marker: Mapped[str | None] = mapped_column(String(255))
     items_indexed: Mapped[int] = mapped_column(Integer, default=0)
-    last_error: Mapped[Optional[str]] = mapped_column(Text)
+    last_error: Mapped[str | None] = mapped_column(Text)
     status: Mapped[str] = mapped_column(String(50), default="idle")
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
@@ -286,12 +286,12 @@ class DuplicateReview(Base):
         UUID(as_uuid=False), ForeignKey("documents.id"), index=True
     )
     similarity_score: Mapped[float] = mapped_column(Float, nullable=False)
-    matching_fields: Mapped[Optional[dict]] = mapped_column(JSON, default=dict)
+    matching_fields: Mapped[dict | None] = mapped_column(JSON, default=dict)
     is_reviewed: Mapped[bool] = mapped_column(Boolean, default=False)
-    review_decision: Mapped[Optional[str]] = mapped_column(String(50))
-    reviewed_by: Mapped[Optional[str]] = mapped_column(String(100))
-    reviewed_at: Mapped[Optional[datetime]] = mapped_column(DateTime)
-    notes: Mapped[Optional[str]] = mapped_column(Text)
+    review_decision: Mapped[str | None] = mapped_column(String(50))
+    reviewed_by: Mapped[str | None] = mapped_column(String(100))
+    reviewed_at: Mapped[datetime | None] = mapped_column(DateTime)
+    notes: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
     __table_args__ = (
@@ -313,10 +313,10 @@ class CanonicalClaimBundle(Base):
     structured_facts: Mapped[dict] = mapped_column(JSON, nullable=False)
     document_list: Mapped[list] = mapped_column(JSON, default=list)
     dedupe_info: Mapped[dict] = mapped_column(JSON, default=dict)
-    llm_context: Mapped[Optional[str]] = mapped_column(Text)
-    llm_summary: Mapped[Optional[str]] = mapped_column(Text)
+    llm_context: Mapped[str | None] = mapped_column(Text)
+    llm_summary: Mapped[str | None] = mapped_column(Text)
     confidence_score: Mapped[float] = mapped_column(Float, default=1.0)
     source_provenance: Mapped[dict] = mapped_column(JSON, default=dict)
     computed_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
-    expires_at: Mapped[Optional[datetime]] = mapped_column(DateTime)
+    expires_at: Mapped[datetime | None] = mapped_column(DateTime)
     is_stale: Mapped[bool] = mapped_column(Boolean, default=False)

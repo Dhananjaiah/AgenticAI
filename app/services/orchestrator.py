@@ -13,20 +13,20 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.db.models import Claim, Document, CanonicalClaimBundle as CanonicalClaimBundleModel
+from app.config import get_settings
+from app.db.models import CanonicalClaimBundle as CanonicalClaimBundleModel
+from app.db.models import Claim
+from app.observability.logging_config import get_logger
 from app.schemas.claims import (
     CanonicalClaimBundle,
     DedupeInfo,
     DocumentInfo,
     LLMContextBundle,
-    LLMSummary,
 )
 from app.schemas.common import SourceProvenance
 from app.services.cache import CacheService
 from app.services.deduper import DeduplicationService, DocumentCandidate
 from app.services.rag import RAGService
-from app.config import get_settings
-from app.observability.logging_config import get_logger
 
 settings = get_settings()
 logger = get_logger(__name__)

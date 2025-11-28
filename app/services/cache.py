@@ -7,7 +7,6 @@ Provides caching functionality for:
 """
 
 import json
-from datetime import datetime
 from typing import Any
 
 import redis.asyncio as redis

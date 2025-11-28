@@ -8,14 +8,14 @@ from uuid import uuid4
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db.models import Customer, Policy, Claim, Document, ClaimStatus, DocumentSourceType
+from app.db.models import Claim, ClaimStatus, Customer, Document, DocumentSourceType, Policy
 
 
 @pytest.mark.asyncio
 async def test_full_claim_flow(async_db_session: AsyncSession, async_client):
     """
     Integration test for the full claim processing flow.
-    
+
     This test:
     1. Creates sample data (customer, policy, claim, documents)
     2. Calls the /claims/{claim_id} endpoint
@@ -30,7 +30,7 @@ async def test_full_claim_flow(async_db_session: AsyncSession, async_client):
         email="jane.doe@example.com",
     )
     async_db_session.add(customer)
-    
+
     # Create policy
     policy = Policy(
         id=str(uuid4()),
@@ -44,7 +44,7 @@ async def test_full_claim_flow(async_db_session: AsyncSession, async_client):
         is_active=True,
     )
     async_db_session.add(policy)
-    
+
     # Create claim
     claim = Claim(
         id=str(uuid4()),
@@ -58,7 +58,7 @@ async def test_full_claim_flow(async_db_session: AsyncSession, async_client):
         filed_date=datetime.utcnow() - timedelta(days=10),
     )
     async_db_session.add(claim)
-    
+
     # Create documents
     doc1 = Document(
         id=str(uuid4()),
@@ -72,7 +72,7 @@ async def test_full_claim_flow(async_db_session: AsyncSession, async_client):
         is_indexed=True,
         indexed_at=datetime.utcnow(),
     )
-    
+
     doc2 = Document(
         id=str(uuid4()),
         claim_id=claim.id,
@@ -85,33 +85,33 @@ async def test_full_claim_flow(async_db_session: AsyncSession, async_client):
         is_indexed=True,
         indexed_at=datetime.utcnow(),
     )
-    
+
     async_db_session.add_all([doc1, doc2])
     await async_db_session.commit()
-    
+
     # Call the API endpoint
     response = await async_client.get(f"/api/v1/claims/{claim.id}")
-    
+
     # Verify response
     assert response.status_code == 200
     data = response.json()
-    
+
     # Verify claim info
     assert data["claim_id"] == claim.id
     assert data["claim_number"] == "INT-CLM-001"
-    
+
     # Verify structured facts
     assert "structured_facts" in data
     assert data["structured_facts"]["claim_amount"] == 12500.0
     assert data["structured_facts"]["status"] == "under_review"
-    
+
     # Verify document list
     assert "document_list" in data
     assert len(data["document_list"]) == 2
-    
+
     # Verify dedupe info
     assert "dedupe_info" in data
-    
+
     # Verify confidence score
     assert "confidence_score" in data
     assert data["confidence_score"] >= 0 and data["confidence_score"] <= 1
@@ -130,7 +130,7 @@ async def test_policy_claims_retrieval(async_db_session: AsyncSession, async_cli
         email="bob.wilson@example.com",
     )
     async_db_session.add(customer)
-    
+
     policy = Policy(
         id=str(uuid4()),
         policy_number="INT-POL-002",
@@ -143,7 +143,7 @@ async def test_policy_claims_retrieval(async_db_session: AsyncSession, async_cli
         is_active=True,
     )
     async_db_session.add(policy)
-    
+
     # Create multiple claims for the policy
     for i in range(3):
         claim = Claim(
@@ -157,27 +157,27 @@ async def test_policy_claims_retrieval(async_db_session: AsyncSession, async_cli
             filed_date=datetime.utcnow() - timedelta(days=28 * (i + 1)),
         )
         async_db_session.add(claim)
-    
+
     await async_db_session.commit()
-    
+
     # Call the API endpoint
     response = await async_client.get(f"/api/v1/policies/{policy.id}/claims")
-    
+
     # Verify response
     assert response.status_code == 200
     data = response.json()
-    
+
     # Verify policy info
     assert data["policy_number"] == "INT-POL-002"
-    
+
     # Verify claims
     assert "claims" in data
     assert len(data["claims"]) == 3
-    
+
     # Verify aggregates
     assert "total_claims_amount" in data
     assert data["total_claims_amount"] == 30000.0  # 5000 + 10000 + 15000
-    
+
     assert "active_claims_count" in data
     assert data["active_claims_count"] == 1  # Only the pending one
 
@@ -189,10 +189,10 @@ async def test_claim_refresh_flow(async_db_session: AsyncSession, async_client, 
     """
     # Trigger refresh
     response = await async_client.post(f"/api/v1/claims/{sample_claim.id}/refresh")
-    
+
     assert response.status_code == 200
     data = response.json()
-    
+
     assert data["claim_id"] == sample_claim.id
     assert data["refresh_started"] is True
     assert data["job_id"] is not None

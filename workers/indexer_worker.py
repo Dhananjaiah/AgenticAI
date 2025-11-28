@@ -12,7 +12,6 @@ This worker:
 import asyncio
 import signal
 import sys
-from datetime import datetime
 from pathlib import Path
 
 # Add parent directory to path for imports
@@ -23,8 +22,8 @@ from app.observability.logging_config import configure_logging, get_logger
 from app.queue.kafka_client import KafkaConsumer
 from app.services.indexer import IndexerService
 from app.services.ocr import OCRService
-from app.vectorstore.chroma_store import ChromaVectorStore
 from app.vectorstore.base import VectorDocument
+from app.vectorstore.chroma_store import ChromaVectorStore
 
 settings = get_settings()
 configure_logging()

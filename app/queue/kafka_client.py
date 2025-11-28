@@ -8,8 +8,9 @@ Provides producer and consumer functionality for:
 """
 
 import json
+from collections.abc import Callable
 from datetime import datetime
-from typing import Any, Callable
+from typing import Any
 
 from app.config import get_settings
 from app.observability.logging_config import get_logger
