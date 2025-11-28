@@ -6,7 +6,6 @@ Provides endpoints for:
 - GET /metrics - Prometheus-compatible metrics
 """
 
-import time
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, Response

@@ -22,6 +22,7 @@ from app.observability.logging_config import configure_logging, get_logger
 from app.queue.kafka_client import KafkaConsumer
 from app.services.indexer import IndexerService
 from app.services.ocr import OCRService
+from app.services.rag import RAGService
 from app.vectorstore.base import VectorDocument
 from app.vectorstore.chroma_store import ChromaVectorStore
 
@@ -212,8 +213,6 @@ class IndexerWorker:
             text: Document text
             metadata: Document metadata
         """
-        from app.services.rag import RAGService
-
         rag = RAGService()
 
         # Chunk the text

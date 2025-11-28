@@ -218,7 +218,7 @@ class BlobRetrieverAgent:
         # Look for metadata files
         metadata_file = folder / "metadata.json"
         if metadata_file.exists():
-            with open(metadata_file) as f:
+            with open(metadata_file, encoding="utf-8") as f:
                 metadata = json.load(f)
                 for file_info in metadata.get("files", []):
                     if file_info.get("claim_id") == claim_id:
@@ -252,7 +252,7 @@ class BlobRetrieverAgent:
         # Look for metadata files
         metadata_file = folder / "metadata.json"
         if metadata_file.exists():
-            with open(metadata_file) as f:
+            with open(metadata_file, encoding="utf-8") as f:
                 metadata = json.load(f)
                 for file_info in metadata.get("files", []):
                     if file_info.get("policy_id") == policy_id:

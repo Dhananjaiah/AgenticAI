@@ -211,7 +211,7 @@ class SharePointRetrieverAgent:
         # Look for metadata files
         metadata_file = folder / "metadata.json"
         if metadata_file.exists():
-            with open(metadata_file) as f:
+            with open(metadata_file, encoding="utf-8") as f:
                 metadata = json.load(f)
                 for doc_info in metadata.get("documents", []):
                     if doc_info.get("claim_id") == claim_id:
@@ -245,7 +245,7 @@ class SharePointRetrieverAgent:
         # Look for metadata files
         metadata_file = folder / "metadata.json"
         if metadata_file.exists():
-            with open(metadata_file) as f:
+            with open(metadata_file, encoding="utf-8") as f:
                 metadata = json.load(f)
                 for doc_info in metadata.get("documents", []):
                     if doc_info.get("policy_id") == policy_id:
@@ -301,7 +301,7 @@ class SharePointRetrieverAgent:
 
         if include_content and file_type == "text":
             try:
-                with open(path) as f:
+                with open(path, encoding="utf-8") as f:
                     doc["content"] = f.read()
             except Exception as e:
                 logger.warning("Failed to read file content", path=str(path), error=str(e))
