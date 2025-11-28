@@ -249,10 +249,10 @@ async def _handle_delete_event(self, event: dict):
     """Handle a document delete event."""
     document_id = event.get("document_id")
     
-    deleted = await self._vector_store.delete_by_metadata(
+    delete_count = await self._vector_store.delete_by_metadata(
         {"document_id": document_id}
     )
-    logger.info("Deleted from vector store", document_id=document_id, count=deleted)
+    logger.info("Deleted from vector store", document_id=document_id, count=delete_count)
 ```
 
 ### Graceful Shutdown

@@ -311,7 +311,7 @@ Only "azure", "openai", or "stub" are allowed. Anything else = error.
    ```bash
    # .env.example (safe to commit)
    DATABASE_URL=postgresql+asyncpg://user:pass@localhost:5432/db
-   AZURE_OPENAI_API_KEY=your-api-key-here
+   AZURE_OPENAI_API_KEY=<your-azure-openai-api-key>
    ```
 
 3. **Use secrets managers in production**

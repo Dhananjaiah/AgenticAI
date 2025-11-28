@@ -122,7 +122,6 @@ Here are all the endpoints in our claims router:
 ```
 GET  /api/v1/claims/                  → List all claims
 GET  /api/v1/claims/{claim_id}        → Get one claim (full bundle)
-GET  /api/v1/claims/{claim_id}/detail → Get claim details only
 POST /api/v1/claims/{claim_id}/refresh → Refresh claim data
 ```
 

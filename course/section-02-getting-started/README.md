@@ -126,6 +126,7 @@ Now let's install all the Python libraries our project needs:
 
 ```bash
 # This reads pyproject.toml and installs everything
+pip install --upgrade pip
 pip install -e ".[dev]"
 ```
 
