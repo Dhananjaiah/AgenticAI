@@ -1,0 +1,45 @@
+INSURANCE CLAIM REPORT
+======================
+
+Claim Number: CLM001
+Policy Number: POL001
+Date of Incident: January 14, 2024
+Date Filed: January 15, 2024
+
+CLAIMANT INFORMATION
+--------------------
+Name: John Smith
+Address: 123 Main Street, Anytown, USA 12345
+Phone: (555) 123-4567
+Email: john.smith@email.com
+
+INCIDENT DETAILS
+----------------
+Type: Auto Accident
+Location: Interstate 95, Mile Marker 42
+Time: 3:45 PM
+
+Description:
+The claimant was traveling northbound on Interstate 95 when another vehicle
+crossed the median and struck the claimant's vehicle on the driver's side.
+The claimant was transported to City General Hospital for treatment of
+minor injuries.
+
+DAMAGE ASSESSMENT
+-----------------
+Vehicle: 2022 Honda Accord
+VIN: 1HGCV1F34NA123456
+Damage: Front-left quarter panel, driver door, side mirror
+Estimated Repair Cost: $8,500
+
+CLAIM AMOUNT REQUESTED
+----------------------
+Vehicle Repairs: $8,500
+Medical Expenses: $2,500
+Rental Car: $500
+Total: $11,500
+
+STATUS: Under Review
+
+Adjuster: Jane Wilson
+Last Updated: January 20, 2024
