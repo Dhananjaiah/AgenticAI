@@ -1,0 +1,25 @@
+{
+  "documents": [
+    {
+      "filename": "claim_CLM001_accident_report.pdf",
+      "claim_id": "CLM001",
+      "policy_id": "POL001",
+      "document_type": "accident_report",
+      "created_at": "2024-01-15T10:30:00Z"
+    },
+    {
+      "filename": "claim_CLM001_photos.zip",
+      "claim_id": "CLM001",
+      "policy_id": "POL001",
+      "document_type": "evidence_photos",
+      "created_at": "2024-01-15T11:00:00Z"
+    },
+    {
+      "filename": "policy_POL001_contract.pdf",
+      "claim_id": null,
+      "policy_id": "POL001",
+      "document_type": "policy_contract",
+      "created_at": "2023-06-01T09:00:00Z"
+    }
+  ]
+}
